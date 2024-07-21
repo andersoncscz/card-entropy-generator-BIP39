@@ -1,0 +1,139 @@
+body {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.deck-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-auto-rows: auto; 
+    gap: 16px;
+}
+
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    text-align: center;
+    padding-top: 18px;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.linebreak-anywhere {
+    line-break: anywhere;
+}
+
+.vertical-spacer {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.warning-container {
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+}
+
+.text-warning {
+    margin-left: 16px;
+}
+
+.highlighted-text {
+    background-color: yellow;
+}
+
+hr.solid {
+    border-top: 3px solid #bbb;
+    width: 100%;
+}
+
+.main-container {
+    display: flex; 
+    flex-direction: row;
+}
+
+.explanation-container {
+    display: flex; 
+    flex-direction: column; 
+    text-align: justify; 
+    border-right: 1px gainsboro solid;
+    padding-right: 16px;
+}
+
+.cards-container {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    min-width: 40%;
+}
+
+.buttons-container {
+    display: flex;
+    min-width: 100%;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.shadow {
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-primary {
+    min-width: 160px;
+    background-color: rgba(0, 255, 255, 0.692);
+    color: black;
+    border: 0px;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.button-secondary {
+    min-width: 170px;
+    background-color: gainsboro;
+    color: black;
+    border: 0px;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.button-text {
+    font-weight: 800;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .explanation-container {
+        border-right: none;
+        padding-right: 0px;
+    }
+
+    .cards-container {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .warning-container {
+        flex-direction: column;
+    }
+}

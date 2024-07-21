@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Shuffle Cards</title>
+        <link rel="stylesheet" type="text/css" href="../src/css/index.css">
+        <script src="../src/javascript/index.js"></script>
+        <script>
+            window.onload = () => {
+                shuffleAndDisplay();
+            };
+        </script>
+    </head>
+    <body>
+        <div class="flex-column-center">
+            <h1 class="text-center">Entropy Generator Using Cards</h1>
+            <div class="warning-container">
+                <img src="../src/images/warning.png" width="90px" height="60px" />
+                <h3 class="text-warning">The responsibility of keeping your wallet safe is entirely yours. If you're creating a crypto wallet for personal use, it's highly recommended that you do everything offline.</h3>
+            </div>
+            <p>
+                <a href="https://github.com/iancoleman/bip39" target="_blank">Download the Standalone offline version of Ian Coleman BIP39 tool</a> and use the generated entropy to create your <strong>BIP39 Mnemonic Codes</strong>.
+            </p>
+            <hr class="solid">
+            <div class="main-container">
+                <div class="cards-container">
+                    <div class="buttons-container">
+                        <button class="button-primary shadow" onclick="shuffleAndDisplay()">
+                            <span class="button-text">Shuffle</span>
+                        </button>
+                        <button class="button-secondary shadow" onclick="copyEntropyToClipboard()">
+                            <span class="button-text">Copy to Clipboard</span>
+                        </button>
+                    </div>
+                    <br/>
+                    <div class="flex-column-center">
+                        <h3 class="text-center linebreak-anywhere">
+                            Generated Entropy Below (values included: [A2-9TJQK][CDHS]):
+                        </h3>
+                        <div id="entropy-container" ></div>
+                    </div>
+                    <div class="vertical-spacer"></div>
+                    <div id="deck-container" class="flex-column-center"></div>
+                </div>
+                <div class="explanation-container">
+                    <h3>
+                        How does the shuffle work?
+                    </h3>
+                    <p>
+                        The cards are shuffled using the <i>Fisher-Yates shuffle algorithm</i>, also known as the <i>Knuth shuffle</i>. 
+                        This algorithm is specifically designed to ensure that <strong class="highlighted-text">every possible permutation of a finite sequence has an equal probability</strong>, making it a fair and <strong class="highlighted-text">unbiased</strong> method of shuffling.
+                    </p>
+                    <h3>Probability Explanation</h3>
+                    <p>
+                        The possibility of shuffling the deck and ending up with the same order of cards is related to the number of possible permutations of the deck. 
+                        This is a <strong>52-card deck</strong>, there are <strong>52!</strong> (52 factorial) possible permutations. <strong>52!</strong> is a very large number, approximately <strong>8.0658x10^67</strong>.
+                    </p>
+                    <p>
+                        The probability of shuffling the deck and having it end up in the exact same order as any previous shuffle is so small that it is practically zero. For all intents and purposes, the deck will almost always end up in a different order after each shuffle.
+                    </p>
+                    </br>
+                    Calculation:
+                    <div>
+                        <img src="../src/images/same-permutation.png" width="100%" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
