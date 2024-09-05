@@ -20,9 +20,14 @@ body {
     align-items: center;
 }
 
-.card {
+.card-container {
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    padding-top: 18px;
+}
+
+.card {
+    margin-bottom: 8px;
 }
 
 .card img {

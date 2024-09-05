@@ -47,11 +47,14 @@ function renderCards() {
         `<div class="deck-grid">
             ${
                 deck.map(card => {
-                    console.log(`Card: ${card.name}`);
-
-                    return `<div class="card">
-                            <img src="${card.imageSource}" alt="${card.name}" />
+                    return (
+                        `<div class="card-container">
+                            <div class="card">
+                                <img src="${card.imageSource}" alt="${card.name}" />
+                            </div>
+                            <span>${card.name}</span>
                         </div>`
+                    )
                 }).join("")
             }
         </div>`;
