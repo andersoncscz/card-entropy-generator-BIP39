@@ -1,9 +1,15 @@
 let entropy = "";
+
+// The cards the user has entered, in the order their physically-shuffled deck
+// presented them. This sequence is the entropy source — nothing is generated
+// by the computer.
+const selectedCards = [];
+
 const deck = ["Hearts", "Diamonds", "Clubs", "Spades"].map(symbol => {
     return ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"].map(type => {
         const name = `${type} of ${symbol}`;
         const image = `${type.toLowerCase()}-of-${symbol.toLowerCase()}`
-        const imageSource = `../src/images/${image}.png`;
+        const imageSource = `images/${image}.png`;
 
         return {
             symbol,
@@ -15,42 +21,62 @@ const deck = ["Hearts", "Diamonds", "Clubs", "Spades"].map(symbol => {
 })
 .flat();
 
-function shuffle(array) { 
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}; 
-
 function buildFilteredEntropy(card) {
     const typeFirstCharValue = card.type.charAt(0).toLowerCase();
     const firstChar = typeFirstCharValue !== "1" ? typeFirstCharValue : "t"
     const lastChar = card.symbol.charAt(0).toLowerCase();
     const filteredEntropy = `${firstChar}${lastChar}`;
-    
-    return filteredEntropy; 
+
+    return filteredEntropy;
 }
 
 function buildEntropy(cards) {
     return cards.map(card => buildFilteredEntropy(card)).join("");
 };
 
+// Bits of entropy from drawing `count` cards, in order and without repetition,
+// from a 52-card deck: log2(52! / (52 - count)!) = sum of log2 over the range.
+function entropyBits(count) {
+    let bits = 0;
+    for (let k = 52 - count + 1; k <= 52; k++) {
+        bits += Math.log2(k);
+    }
+    return bits;
+}
+
 function renderEntropy() {
-    return document.getElementById('entropy-container').innerHTML = 
-        `<p class="linebreak-anywhere">
+    const count = selectedCards.length;
+    const bits = Math.round(entropyBits(count));
+    const progress =
+        `<p>${count} / 52 cards entered &mdash; ~${bits} bits of entropy</p>` +
+        (count < 52
+            ? `<p class="text-hint">Enter your full shuffled deck (52 cards, ~225 bits) for maximum entropy.</p>`
+            : ``);
+
+    return document.getElementById('entropy-container').innerHTML =
+        `${progress}
+        <p class="linebreak-anywhere">
             ${entropy}
         </p>`;
 }
 
+function isUsed(card) {
+    return selectedCards.includes(card);
+}
+
 function renderCards() {
-    return document.getElementById('deck-container').innerHTML = 
+    return document.getElementById('deck-container').innerHTML =
         `<div class="deck-grid">
             ${
-                deck.map(card => {
+                deck.map((card, index) => {
+                    const used = isUsed(card);
+                    const position = used ? selectedCards.indexOf(card) + 1 : null;
                     return (
                         `<div class="card-container">
-                            <div class="card">
+                            <div class="card ${used ? "card--used" : ""}"
+                                 ${used ? "" : `onclick="selectCard(${index})"`}>
                                 <img src="${card.imageSource}" alt="${card.name}" />
+                                ${used ? `<span class="card-badge">${position}</span>` : ``}
                             </div>
                             <span>${card.name}</span>
                         </div>`
@@ -60,14 +86,37 @@ function renderCards() {
         </div>`;
 };
 
-function shuffleAndDisplay() {
-    shuffle(deck);
-    entropy = buildEntropy(deck);
+function display() {
+    entropy = buildEntropy(selectedCards);
     renderEntropy();
     renderCards();
 }
 
+function selectCard(index) {
+    const card = deck[index];
+    if (isUsed(card)) {
+        return;
+    }
+    selectedCards.push(card);
+    display();
+}
+
+function undoLast() {
+    selectedCards.pop();
+    display();
+}
+
+function reset() {
+    selectedCards.length = 0;
+    display();
+}
+
 function copyEntropyToClipboard() {
-    navigator.clipboard.writeText(entropy);
-    alert("Entropy Copied to Clipboard");
+    if (!entropy) {
+        alert("Enter at least one card before copying.");
+        return;
+    }
+    navigator.clipboard.writeText(entropy)
+        .then(() => alert("Entropy Copied to Clipboard"))
+        .catch(() => alert("Could not copy to clipboard. Please copy the entropy manually."));
 }

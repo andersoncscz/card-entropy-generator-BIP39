@@ -27,12 +27,38 @@ body {
 }
 
 .card {
+    position: relative;
     margin-bottom: 8px;
+    cursor: pointer;
 }
 
 .card img {
     max-width: 100%;
     height: auto;
+}
+
+.card--used {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.card-badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    min-width: 20px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.text-hint {
+    color: #666;
+    font-size: 14px;
 }
 
 .text-center {
