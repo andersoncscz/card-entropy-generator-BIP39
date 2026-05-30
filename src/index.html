@@ -8,7 +8,7 @@
         <script src="javascript/index.js"></script>
         <script>
             window.onload = () => {
-                display();
+                shuffleAndDisplay();
             };
         </script>
     </head>
@@ -26,6 +26,9 @@
             <div class="main-container">
                 <div class="cards-container">
                     <div class="buttons-container">
+                        <button class="button-secondary shadow" onclick="shuffleAndDisplay()">
+                            <span class="button-text">Shuffle Deck</span>
+                        </button>
                         <button class="button-secondary shadow" onclick="undoLast()">
                             <span class="button-text">Undo Last</span>
                         </button>

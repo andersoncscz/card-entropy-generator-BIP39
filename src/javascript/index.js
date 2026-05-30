@@ -21,6 +21,31 @@ const deck = ["Hearts", "Diamonds", "Clubs", "Spades"].map(symbol => {
 })
 .flat();
 
+// Cryptographically secure, unbiased integer in [0, maxExclusive).
+// Rejection sampling discards the top of the uint32 range so the modulo is even.
+function secureRandomInt(maxExclusive) {
+    const limit = Math.floor(0x100000000 / maxExclusive) * maxExclusive;
+    const buffer = new Uint32Array(1);
+    let value;
+    do {
+        crypto.getRandomValues(buffer);
+        value = buffer[0];
+    } while (value >= limit);
+    return value % maxExclusive;
+}
+
+// Reorders the on-screen deck only — a Fisher-Yates shuffle using the Web Crypto
+// CSPRNG. This does NOT affect the entropy: the entropy comes from the order the
+// user clicks cards (selectedCards). Shuffling the display just stops users from
+// always picking cards in the same static order. Using crypto (not Math.random)
+// keeps the result secure even if a user simply shuffles and clicks in order.
+function shuffleDeck() {
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = secureRandomInt(i + 1);
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+}
+
 function buildFilteredEntropy(card) {
     const typeFirstCharValue = card.type.charAt(0).toLowerCase();
     const firstChar = typeFirstCharValue !== "1" ? typeFirstCharValue : "t"
@@ -108,6 +133,13 @@ function undoLast() {
 
 function reset() {
     selectedCards.length = 0;
+    display();
+}
+
+// Reorder the displayed deck. Selected cards keep their sequence badge wherever
+// they land; the entropy is unchanged.
+function shuffleAndDisplay() {
+    shuffleDeck();
     display();
 }
 
