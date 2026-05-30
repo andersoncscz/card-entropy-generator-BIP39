@@ -2,13 +2,13 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Shuffle Cards</title>
-        <link rel="stylesheet" type="text/css" href="../src/css/index.css">
-        <script src="../src/javascript/index.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <script src="javascript/index.js"></script>
         <script>
             window.onload = () => {
-                shuffleAndDisplay();
+                display();
             };
         </script>
     </head>
@@ -16,7 +16,7 @@
         <div class="flex-column-center">
             <h1 class="text-center">Entropy Generator Using Cards</h1>
             <div class="warning-container">
-                <img src="../src/images/warning.png" width="90px" height="60px" />
+                <img src="images/warning.png" width="90px" height="60px" />
                 <h3 class="text-warning">The responsibility of keeping your wallet safe is entirely yours. If you're creating a crypto wallet for personal use, it's highly recommended that you do everything offline.</h3>
             </div>
             <p>
@@ -26,17 +26,20 @@
             <div class="main-container">
                 <div class="cards-container">
                     <div class="buttons-container">
-                        <button class="button-primary shadow" onclick="shuffleAndDisplay()">
-                            <span class="button-text">Shuffle</span>
+                        <button class="button-secondary shadow" onclick="undoLast()">
+                            <span class="button-text">Undo Last</span>
                         </button>
-                        <button class="button-secondary shadow" onclick="copyEntropyToClipboard()">
+                        <button class="button-secondary shadow" onclick="reset()">
+                            <span class="button-text">Reset</span>
+                        </button>
+                        <button class="button-primary shadow" onclick="copyEntropyToClipboard()">
                             <span class="button-text">Copy to Clipboard</span>
                         </button>
                     </div>
                     <br/>
                     <div class="flex-column-center">
                         <h3 class="text-center linebreak-anywhere">
-                            Generated Entropy Below (values included: [A2-9TJQK][CDHS]):
+                            Click the cards in the order of your shuffled deck (values: [A2-9TJQK][CDHS]):
                         </h3>
                         <div id="entropy-container" ></div>
                     </div>
@@ -45,25 +48,18 @@
                 </div>
                 <div class="explanation-container">
                     <h3>
-                        How does the shuffle work?
+                        Where does the entropy come from?
                     </h3>
                     <p>
-                        The cards are shuffled using the <i>Fisher-Yates shuffle algorithm</i>, also known as the <i>Knuth shuffle</i>. 
-                        This algorithm is specifically designed to ensure that <strong class="highlighted-text">every possible permutation of a finite sequence has an equal probability</strong>, making it a fair and <strong class="highlighted-text">unbiased</strong> method of shuffling.
+                        The randomness comes from <strong class="highlighted-text">you physically shuffling a real deck of cards</strong> &mdash; not from this computer. Shuffle a standard 52-card deck by hand, then click each card here in the exact order it appears in your shuffled deck. This tool only records that order and converts it to entropy; it never generates randomness itself.
                     </p>
-                    <h3>Probability Explanation</h3>
+                    <h3>How much entropy do I get?</h3>
                     <p>
-                        The possibility of shuffling the deck and ending up with the same order of cards is related to the number of possible permutations of the deck. 
-                        This is a <strong>52-card deck</strong>, there are <strong>52!</strong> (52 factorial) possible permutations. <strong>52!</strong> is a very large number, approximately <strong>8.0658x10^67</strong>.
+                        The number of distinct orderings of a <strong>52-card deck</strong> is <strong>52!</strong> (52 factorial) &mdash; approximately <strong>8.0658&times;10<sup>67</sup></strong>, or about <strong>225 bits</strong> of entropy when you enter the full deck. Entering fewer cards gives proportionally less entropy, which is why entering the whole deck is recommended.
                     </p>
                     <p>
-                        The probability of shuffling the deck and having it end up in the exact same order as any previous shuffle is so small that it is practically zero. For all intents and purposes, the deck will almost always end up in a different order after each shuffle.
+                        A well-shuffled physical deck is a strong, computer-independent source of randomness. For real funds, do this <strong>offline</strong> and make sure your shuffle is thorough.
                     </p>
-                    </br>
-                    Calculation:
-                    <div>
-                        <img src="../src/images/same-permutation.png" width="100%" />
-                    </div>
                 </div>
             </div>
         </div>
