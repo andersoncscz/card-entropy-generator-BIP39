@@ -80,7 +80,7 @@ function renderEntropy() {
 
     return document.getElementById('entropy-container').innerHTML =
         `${progress}
-        <p class="linebreak-anywhere">
+        <p class="linebreak-anywhere enthropy-value">
             ${entropy}
         </p>`;
 }
@@ -111,10 +111,23 @@ function renderCards() {
         </div>`;
 };
 
+// The bottom bar is fixed, so it would overlap the end of the deck. Reserve its
+// exact height as body padding so the last cards always clear it — the bar's
+// height changes as the entropy text grows and as buttons wrap on small screens.
+function syncBottomBarSpace() {
+    const bar = document.querySelector('.bottom-bar');
+    if (bar) {
+        document.body.style.paddingBottom = `${bar.offsetHeight + 16}px`;
+    }
+}
+
+window.addEventListener('resize', syncBottomBarSpace);
+
 function display() {
     entropy = buildEntropy(selectedCards);
     renderEntropy();
     renderCards();
+    syncBottomBarSpace();
 }
 
 function selectCard(index) {
