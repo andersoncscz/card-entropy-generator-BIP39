@@ -8,7 +8,7 @@
         <script src="javascript/index.js"></script>
         <script>
             window.onload = () => {
-                display();
+                shuffleAndDisplay();
             };
         </script>
     </head>
@@ -25,23 +25,10 @@
             <hr class="solid">
             <div class="main-container">
                 <div class="cards-container">
-                    <div class="buttons-container">
-                        <button class="button-secondary shadow" onclick="undoLast()">
-                            <span class="button-text">Undo Last</span>
-                        </button>
-                        <button class="button-secondary shadow" onclick="reset()">
-                            <span class="button-text">Reset</span>
-                        </button>
-                        <button class="button-primary shadow" onclick="copyEntropyToClipboard()">
-                            <span class="button-text">Copy to Clipboard</span>
-                        </button>
-                    </div>
-                    <br/>
                     <div class="flex-column-center">
                         <h3 class="text-center linebreak-anywhere">
                             Click the cards in the order of your shuffled deck (values: [A2-9TJQK][CDHS]):
                         </h3>
-                        <div id="entropy-container" ></div>
                     </div>
                     <div class="vertical-spacer"></div>
                     <div id="deck-container" class="flex-column-center"></div>
@@ -61,6 +48,23 @@
                         A well-shuffled physical deck is a strong, computer-independent source of randomness. For real funds, do this <strong>offline</strong> and make sure your shuffle is thorough.
                     </p>
                 </div>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <div id="entropy-container" class="bottom-bar-info"></div>
+            <div class="buttons-container">
+                <button class="button-secondary shadow" onclick="shuffleAndDisplay()">
+                    <span class="button-text">Shuffle Deck</span>
+                </button>
+                <button class="button-secondary shadow" onclick="undoLast()">
+                    <span class="button-text">Undo Last</span>
+                </button>
+                <button class="button-secondary shadow" onclick="reset()">
+                    <span class="button-text">Reset</span>
+                </button>
+                <button class="button-primary shadow" onclick="copyEntropyToClipboard()">
+                    <span class="button-text">Copy to Clipboard</span>
+                </button>
             </div>
         </div>
     </body>
