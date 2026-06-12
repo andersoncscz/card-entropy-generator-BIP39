@@ -62,12 +62,24 @@ body {
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
 }
 
 .card {
     position: relative;
     margin-bottom: 8px;
     cursor: pointer;
+    width: 90px;
+}
+
+/* Disables clicking when the card is used */
+.card:has(.card-img--used) {
+    pointer-events: none;
+}
+
+/* Fades only the image, leaving the badge clear */
+.card-img--used {
+    opacity: 0.35;
 }
 
 .card img {
@@ -76,22 +88,24 @@ body {
 }
 
 .card--used {
-    opacity: 0.35;
     pointer-events: none;
 }
 
 .card-badge {
     position: absolute;
-    top: 4px;
+    top: -20px;
     left: 4px;
-    min-width: 20px;
-    padding: 2px 6px;
-    border-radius: 10px;
-    background-color: rgb(72, 0, 255);
-    color: rgb(255, 255, 255);
-    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    background-color: rgb(13, 255, 0);
+    color: rgba(0, 0, 0);
+    font-size: 16px;
     font-weight: 800;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .text-hint {

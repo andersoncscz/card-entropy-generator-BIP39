@@ -98,9 +98,8 @@ function renderCards() {
                     const position = used ? selectedCards.indexOf(card) + 1 : null;
                     return (
                         `<div class="card-container">
-                            <div class="card ${used ? "card--used" : ""}"
-                                 ${used ? "" : `onclick="selectCard(${index})"`}>
-                                <img src="${card.imageSource}" alt="${card.name}" />
+                            <div class="card" ${used ? "" : `onclick="selectCard(${index})"`}>
+                                <img class="${used ? "card-img--used" : ""}" src="${card.imageSource}" alt="${card.name}" />
                                 ${used ? `<span class="card-badge">${position}</span>` : ``}
                             </div>
                             <span>${card.name}</span>
