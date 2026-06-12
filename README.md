@@ -4,6 +4,8 @@ Turns a **physically shuffled deck of cards** into entropy you can use with the 
 
 The randomness comes entirely from your real-world shuffle — this tool never generates randomness itself. You shuffle a standard 52-card deck by hand, then click each card in the exact order it appears in your deck. The app records that order and converts it to entropy in the `[A2-9TJQK][cdhs]` format the Ian Coleman tool accepts.
 
+<img width="1440" height="748" alt="Screenshot 2026-06-12 at 19 57 25" src="https://github.com/user-attachments/assets/f9a5e62b-33c4-4897-809c-b52b83a685bd" />
+
 ### How to use it?
 - Shuffle a standard 52-card deck thoroughly by hand.
 - Open the app ([online version](https://andersoncscz.github.io/card-entropy-generator-BIP39/src/index.html)).
