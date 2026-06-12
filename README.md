@@ -8,8 +8,9 @@ The randomness comes entirely from your real-world shuffle — this tool never g
 - Shuffle a standard 52-card deck thoroughly by hand.
 - Open the app ([online version](https://andersoncscz.github.io/card-entropy-generator-BIP39/src/index.html)).
 - Click each card in the order it appears in your shuffled deck. Each card gets a sequence number and the entropy updates as you go. Use **Undo Last** or **Reset** to correct mistakes.
-- Enter the full deck for maximum entropy (~225 bits). Fewer cards yield proportionally less.
-- Click **Copy to Clipboard** and paste the entropy into the Ian Coleman BIP39 tool's "Card" entropy field.
+- Enter the full 52-card deck (~225 bits). A single deck can't exceed this, so reaching the 256-bit target needs a second, independent shuffle.
+- Once the full deck is in, **physically reshuffle it** and click **Reshuffle & Continue**. Click roughly 6 more cards in their new order — the sequence numbers keep counting up (53, 54, …) and the entropy adds on top.
+- At **256 bits (a 24-word BIP39 mnemonic)** the deck locks automatically and **Copy to Clipboard** unlocks. Paste the entropy into the Ian Coleman BIP39 tool's "Card" entropy field.
 
 ### How to use it offline?
 - [Download](https://github.com/andersoncscz/card-entropy-generator-BIP39/tree/main) the project.
