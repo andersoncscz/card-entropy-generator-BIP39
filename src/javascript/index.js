@@ -138,31 +138,97 @@ function isUsed(card) {
     return currentRound().includes(card);
 }
 
-function renderCards() {
+// Each card's name is unique, so it's a stable id for finding its DOM node and
+// the card it represents — even after a shuffle reorders the `deck` array.
+function cardId(card) {
+    return card.name;
+}
+
+function getCardById(id) {
+    return deck.find(card => cardId(card) === id);
+}
+
+// Build the 52 card nodes ONCE. Re-rendering the whole grid on every click
+// destroys and re-decodes all 52 <img> elements, which makes the deck visibly
+// flicker (collapse then expand). Instead we create the nodes a single time and
+// afterwards only reorder them and toggle their state — no image reloads.
+function buildDeck() {
+    const grid = document.createElement('div');
+    grid.className = 'deck-grid';
+    deck.forEach(card => {
+        const container = document.createElement('div');
+        container.className = 'card-container';
+        container.dataset.id = cardId(card);
+        container.innerHTML =
+            `<div class="card">
+                <img src="${card.imageSource}" alt="${card.name}" />
+            </div>
+            <span>${card.name}</span>`;
+        container.querySelector('.card').addEventListener('click', () => {
+            selectCard(getCardById(container.dataset.id));
+        });
+        grid.appendChild(container);
+    });
+    const deckContainer = document.getElementById('deck-container');
+    deckContainer.innerHTML = '';
+    deckContainer.appendChild(grid);
+}
+
+// Move the existing card nodes into the current `deck` order (after a shuffle).
+// appendChild relocates a node without recreating it, so images don't reload.
+function reorderDeckDom() {
+    const grid = document.querySelector('#deck-container .deck-grid');
+    if (!grid) {
+        return;
+    }
+    const byId = new Map(
+        Array.from(grid.children).map(el => [el.dataset.id, el])
+    );
+    deck.forEach(card => {
+        const el = byId.get(cardId(card));
+        if (el) {
+            grid.appendChild(el);
+        }
+    });
+}
+
+// Toggle the used/badge/clickable state on the already-built card nodes.
+function updateCardStates() {
     const round = currentRound();
     const frozen = isFrozen();
     // Badges count continuously across rounds, so the second round picks up where
     // the first left off (e.g. 53, 54, ...) rather than restarting at 1.
     const priorCards = allSelectedCards().length - round.length;
-    return document.getElementById('deck-container').innerHTML =
-        `<div class="deck-grid">
-            ${
-                deck.map((card, index) => {
-                    const used = round.includes(card);
-                    const position = used ? priorCards + round.indexOf(card) + 1 : null;
-                    const clickable = !used && !frozen;
-                    return (
-                        `<div class="card-container">
-                            <div class="card" ${clickable ? `onclick="selectCard(${index})"` : ""}>
-                                <img class="${used || frozen ? "card-img--used" : ""}" src="${card.imageSource}" alt="${card.name}" />
-                                ${used ? `<span class="card-badge">${position}</span>` : ``}
-                            </div>
-                            <span>${card.name}</span>
-                        </div>`
-                    )
-                }).join("")
+
+    document.querySelectorAll('#deck-container .card-container').forEach(container => {
+        const card = getCardById(container.dataset.id);
+        const cardEl = container.querySelector('.card');
+        const img = container.querySelector('img');
+        const roundIndex = round.indexOf(card);
+        const used = roundIndex !== -1;
+
+        img.classList.toggle('card-img--used', used || frozen);
+
+        let badge = cardEl.querySelector('.card-badge');
+        if (used) {
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'card-badge';
+                cardEl.appendChild(badge);
             }
-        </div>`;
+            badge.textContent = priorCards + roundIndex + 1;
+        } else if (badge) {
+            badge.remove();
+        }
+    });
+}
+
+function renderCards() {
+    if (!document.querySelector('#deck-container .deck-grid')) {
+        buildDeck();
+    }
+    reorderDeckDom();
+    updateCardStates();
 };
 
 // The bottom bar is fixed, so it would overlap the end of the deck. Reserve its
@@ -198,12 +264,8 @@ function syncControls() {
     }
 }
 
-function selectCard(index) {
-    if (isFrozen()) {
-        return;
-    }
-    const card = deck[index];
-    if (isUsed(card)) {
+function selectCard(card) {
+    if (isFrozen() || !card || isUsed(card)) {
         return;
     }
     currentRound().push(card);
