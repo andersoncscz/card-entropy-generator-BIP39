@@ -44,6 +44,10 @@
                     <p>
                         The number of distinct orderings of a <strong>52-card deck</strong> is <strong>52!</strong> (52 factorial) &mdash; approximately <strong>8.0658&times;10<sup>67</sup></strong>, or about <strong>225 bits</strong> of entropy when you enter the full deck. Entering fewer cards gives proportionally less entropy, which is why entering the whole deck is recommended.
                     </p>
+                    <h3>How do I reach 256 bits (24 words)?</h3>
+                    <p>
+                        One deck tops out at ~225 bits, so for a full <strong>256-bit / 24-word</strong> seed you need a second, independent shuffle. Enter your deck, then <strong>physically reshuffle</strong> it and press <strong>&ldquo;Reshuffle &amp; Continue&rdquo;</strong> to start a new round &mdash; its entropy adds on top. About <strong>6 more cards</strong> from the reshuffled deck is enough. The deck locks automatically once you reach 256 bits.
+                    </p>
                     <p>
                         A well-shuffled physical deck is a strong, computer-independent source of randomness. For real funds, do this <strong>offline</strong> and make sure your shuffle is thorough.
                     </p>
@@ -56,13 +60,16 @@
                 <button class="button-secondary shadow" onclick="shuffleAndDisplay()">
                     <span class="button-text">Shuffle Deck</span>
                 </button>
+                <button id="reshuffle-button" class="button-secondary shadow" onclick="reshuffleAndContinue()" disabled title="Enter the full deck first to unlock">
+                    <span class="button-text">Reshuffle &amp; Continue</span>
+                </button>
                 <button class="button-secondary shadow" onclick="undoLast()">
                     <span class="button-text">Undo Last</span>
                 </button>
                 <button class="button-secondary shadow" onclick="reset()">
                     <span class="button-text">Reset</span>
                 </button>
-                <button class="button-primary shadow" onclick="copyEntropyToClipboard()">
+                <button id="copy-button" class="button-secondary shadow" onclick="copyEntropyToClipboard()" disabled title="Reach 256 bits of entropy to unlock">
                     <span class="button-text">Copy to Clipboard</span>
                 </button>
             </div>
