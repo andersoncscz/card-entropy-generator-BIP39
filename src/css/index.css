@@ -292,6 +292,10 @@ hr.solid {
     display: block;
     width: 100%;
     height: auto;
+    /* Reserve the card's footprint (image is 73x98) so the grid keeps its size
+       even while images re-decode after a re-render — prevents layout flicker. */
+    aspect-ratio: 73 / 98;
+    object-fit: contain;
     border-radius: 6px;
     transition: opacity 0.18s ease;
 }
@@ -421,6 +425,11 @@ hr.solid {
     justify-content: center;
 }
 
+/* On wider screens the row wrappers dissolve so all buttons sit in one row. */
+.button-row {
+    display: contents;
+}
+
 .button-secondary,
 .button-primary {
     min-width: 150px;
@@ -523,6 +532,20 @@ hr.solid {
         grid-template-columns: repeat(6, 1fr);
         gap: 18px 10px;
     }
+
+    /* Mobile only: split the controls into two rows (utility / primary). */
+    .buttons-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        width: 100%;
+    }
 }
 
 @media (max-width: 600px) {
@@ -535,13 +558,23 @@ hr.solid {
     }
 }
 
+@media (max-width: 600px) {
+    /* Let buttons share each row evenly instead of forcing a tall stack. */
+    .button-row .button-primary,
+    .button-row .button-secondary {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 11px 8px;
+    }
+
+    .button-text {
+        white-space: nowrap;
+        font-size: 0.85rem;
+    }
+}
+
 @media (max-width: 420px) {
     .deck-grid {
         grid-template-columns: repeat(3, 1fr);
-    }
-
-    .buttons-container .button-primary,
-    .buttons-container .button-secondary {
-        flex: 1 1 100%;
     }
 }
