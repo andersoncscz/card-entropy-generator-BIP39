@@ -123,11 +123,15 @@ function renderEntropy() {
                 : `<p class="text-hint">Enter your full shuffled deck (52 cards, ~225 bits). Reshuffling unlocks once the whole deck is in.</p>`);
     }
 
+    const bar =
+        `<div class="entropy-progress${isFrozen() ? ' entropy-progress--full' : ''}">
+            <div class="entropy-progress__fill" style="width: ${pct}%"></div>
+        </div>`;
+
     return document.getElementById('entropy-container').innerHTML =
-        `${progress}
-        <p class="linebreak-anywhere enthropy-value">
-            ${entropy}
-        </p>`;
+        `${bar}
+        ${progress}
+        <p class="linebreak-anywhere enthropy-value">${entropy}</p>`;
 }
 
 function isUsed(card) {
