@@ -246,6 +246,13 @@ function reshuffleAndContinue() {
     display();
 }
 
+// Reorder the displayed deck. Selected cards keep their sequence badge wherever
+// they land; the entropy is unchanged.
+function shuffleAndDisplay() {
+    shuffleDeck();
+    display();
+}
+
 function copyEntropyToClipboard() {
     if (!isFrozen()) {
         alert(`Reach ${TARGET_BITS} bits of entropy before copying.`);

@@ -526,6 +526,10 @@ hr.solid {
 }
 
 @media (max-width: 600px) {
+    body {
+        padding-bottom: 230px; /* bar wraps taller when info + button stack */
+    }
+
     .deck-grid {
         grid-template-columns: repeat(4, 1fr);
     }
